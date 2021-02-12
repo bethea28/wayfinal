@@ -29,7 +29,7 @@ function App() {
     <div className='App'>
       Search: <Autocomplete data={parts} />
       {/* Search: <Autocomplete data={parts.map((p) => p)} /> */}
-      {/* <Table parts={parts} /> */}
+      {/* <Table parts={p arts} /> */}
     </div>
   )
 }

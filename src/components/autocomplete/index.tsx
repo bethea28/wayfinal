@@ -1,11 +1,13 @@
+// @ts-ignore
+
 import React, { useState } from 'react'
 import './style.css'
 // import '../../App.css'
 import Table from '../table'
 
 const Autocomplete = ({ data }: { data: any }) => {
-  const inputRef = React.useRef(null)
-  const [userInput, setUserInput] = useState<any>('')
+  const inputRef = React.useRef<HTMLInputElement>(null)
+  const [userInput, setUserInput] = useState<any>()
   const [filtered, setFiltered] = useState<any[]>(data)
   const [activeSuggestion, setActiveSuggestion] = useState<number>(0)
 
@@ -34,9 +36,16 @@ const Autocomplete = ({ data }: { data: any }) => {
 
   const onKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === 'Enter') {
-      // console.log('ref', inputRef.value)
+      if (null !== inputRef.current) {
+        // h1Ref.current.innerText = 'Hello world!'
+        console.log('bryan ref', inputRef.current.value) // { current: <h1_object> }
+        let parts = { name: inputRef.current.value }
+        setFiltered([parts])
+      } else {
+      }
+
+      // console.log('ref', inputRef.current.value)
       // setUserInput(filtered[activeSuggestion])
-      // setFiltered([])
     } else if (e.key === 'ArrowUp') {
       e.preventDefault()
       if (activeSuggestion === 0) {
@@ -54,10 +63,11 @@ const Autocomplete = ({ data }: { data: any }) => {
   }
 
   const onClick = (e: React.MouseEvent<HTMLLIElement, MouseEvent>) => {
+    e.currentTarget.focus()
     console.log('index', e.currentTarget.childNodes[1].textContent)
     let parts = { name: e.currentTarget.childNodes[1].textContent }
     setActiveSuggestion(0)
-    setFiltered([parts])
+    // setFiltered([parts])
     setUserInput(e.currentTarget.childNodes[1].textContent)
   }
   console.log('bryan final filterted', filtered)
@@ -70,62 +80,16 @@ const Autocomplete = ({ data }: { data: any }) => {
         onKeyDown={onKeyDown}
         value={userInput || ''}
       />
-      {/* <table>
-        <thead>
-          <tr>
-            <th>ID</th>
-            <th>Name</th>
-            <th>Price</th>
-            <th>Instock</th>
-            <th>Low Stock</th>
-            <th>Out Of Stock</th>
-          </tr>
-        </thead>
-      </table> */}
 
-      {/* <ul> */}
-      <Table
-        handleKeyDown={onKeyDown}
-        handleClick={(e: any) => onClick(e)}
-        parts={filtered}
-      />
-      {/* {filtered.length > 0 ? (
-          filtered.map((row, idx) => {
-            // console.log(`row ${row} - ${idx}`)
-            return (
-              <li
-                className={
-                  idx === activeSuggestion ? 'autocomplete-active' : ''
-                }
-                key={row}
-                onClick={onClick}
-              >
-                {row}
-              </li>
-            )
-          })
-        ) : (
-          <></>
-        )} */}
-      {/* {filtered.length > 0 ? (
-          filtered.map((row, idx) => {
-            // console.log(`row ${row} - ${idx}`)
-            return (
-              <li
-                className={
-                  idx === activeSuggestion ? 'autocomplete-active' : ''
-                }
-                key={row}
-                onClick={onClick}
-              >
-                {row}
-              </li>
-            )
-          })
-        ) : (
-          <></>
-        )} */}
-      {/* </ul> */}
+      <ul>
+        <div onKeyDown={(e: any) => onKeyDown(e)}>
+          <Table
+            handleKeyDown={onKeyDown}
+            handleClick={(e: any) => onClick(e)}
+            parts={filtered}
+          />
+        </div>
+      </ul>
     </div>
   )
 }

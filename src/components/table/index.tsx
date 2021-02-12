@@ -17,10 +17,20 @@ const Table = ({
   handleClick: any
   handleKeyDown: any
 }) => {
+  const rowRef = React.useRef(null)
   console.log('parts table bryan', parts)
-  // const test = (index: any) => {
-  //   console.log('test', index)
-  // }
+
+  function enter(e: any, index: number) {
+    console.log('bryan hover', [index])
+    e.currentTarget.style.background = 'red'
+    console.log('e target', e.currentTarget.childNodes)
+  }
+
+  function leave(e: any, index: number) {
+    console.log('bryan hover', [index])
+    e.currentTarget.style.background = ''
+    // console.log('e target', e.currentTarget.style.background)
+  }
   return (
     <table>
       <thead>
@@ -36,7 +46,14 @@ const Table = ({
       <tbody>
         {parts.map((part: any, index: any) => {
           return (
-            <tr onKeyDown={handleKeyDown} onClick={handleClick} key={index}>
+            <tr
+              ref={rowRef}
+              onMouseEnter={(e) => enter(e, index)}
+              onMouseLeave={(e) => leave(e, index)}
+              onKeyDown={handleKeyDown}
+              onClick={handleClick}
+              key={index}
+            >
               <td>{part.id}</td>
               <td>{part.name}</td>
               <td>{part.price}</td>
