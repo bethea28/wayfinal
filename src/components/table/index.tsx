@@ -1,6 +1,5 @@
 import React, { useState } from 'react'
-// import './style.css'
-// import './App.css'
+import './table.css'
 
 interface PartType {
   id: number
@@ -9,30 +8,27 @@ interface PartType {
   instock: number
 }
 const Table = ({
+  reffed,
+  tableRef,
   parts,
   handleClick,
   handleKeyDown,
+  onMouseEnter,
+  onMouseLeave,
+  ...props
 }: {
+  reffed: any
+  tableRef: any
   parts: any
   handleClick: any
   handleKeyDown: any
+  onMouseEnter: any
+  onMouseLeave: any
 }) => {
-  const rowRef = React.useRef(null)
-  console.log('parts table bryan', parts)
+  console.log('nigga refs heres', reffed)
 
-  function enter(e: any, index: number) {
-    console.log('bryan hover', [index])
-    e.currentTarget.style.background = 'red'
-    console.log('e target', e.currentTarget.childNodes)
-  }
-
-  function leave(e: any, index: number) {
-    console.log('bryan hover', [index])
-    e.currentTarget.style.background = ''
-    // console.log('e target', e.currentTarget.style.background)
-  }
   return (
-    <table>
+    <table ref={tableRef}>
       <thead>
         <tr>
           <th>ID</th>
@@ -47,12 +43,13 @@ const Table = ({
         {parts.map((part: any, index: any) => {
           return (
             <tr
-              ref={rowRef}
-              onMouseEnter={(e) => enter(e, index)}
-              onMouseLeave={(e) => leave(e, index)}
-              onKeyDown={handleKeyDown}
-              onClick={handleClick}
+              className='table-rows'
+              // ref={reffed[index]}
+              onMouseEnter={onMouseEnter}
+              onMouseLeave={onMouseLeave}
+              onClick={(e) => handleClick(index, e)}
               key={index}
+              onKeyPressCapture={handleKeyDown}
             >
               <td>{part.id}</td>
               <td>{part.name}</td>
