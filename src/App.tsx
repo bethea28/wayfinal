@@ -26,8 +26,9 @@ function App() {
   let usernameRefs = React.useRef<any>([''])
   let tableRef = React.useRef<any>('')
   // let allrows = document.getElementsByTagName('tr')
-
   useEffect(() => {
+    console.log('money', index)
+    console.log('craigy', userInput)
     // allCells[0].style.backgroundColor = 'yellow'
     // allRows[index].style.backgroundColor = 'yellow'
     for (let i = 0; i < allRows.length; i++) {
@@ -48,13 +49,13 @@ function App() {
       const data = await resp.json()
       const myData: PartType[] = data
 
-      setParts(myData)
+      // setParts(myData)
       setFiltered(myData)
     }
     fetchData()
     // allRows[3].style.backgroundColor = allRows[3] ? 'red' : 'blue'
     // allRows[3]?.style.backgroundColor = 'blue'
-  }, [allRows, index])
+  }, [index])
   // allRows[0] && allRows[0].style.backgroundColor = 'red'
   // console.log('sandy', allRows[0].innerHTML)
   allRows[0] && allRows[0].focus()
@@ -81,7 +82,6 @@ function App() {
         console.log('bryan ref', inputRef.current.value) // { current: <h1_object> }
         let parts = { name: inputRef.current.value }
         setFiltered([parts])
-      } else {
       }
 
       // console.log('ref', inputRef.current.value)
@@ -119,8 +119,9 @@ function App() {
     e: React.MouseEvent<HTMLLIElement, MouseEvent>
   ) => {
     // let allrows = document.getE
+    e.preventDefault()
     setIndex(index + 2)
-    allRows[0].focus()
+    // allRows[0].focus()
     console.log('input ref danny', inputRef)
     inputRef.current !== null && inputRef.current.focus()
     // console.log('event bry', inp)
@@ -133,15 +134,20 @@ function App() {
     // console.log('focus target', e.currentTarget)
     // // e.currentTarget.focus()
     // console.log('index chris', e.currentTarget.childNodes[1].textContent)
-    let parts = { name: e.currentTarget.childNodes[1].textContent }
     // setActiveSuggestion(0)
+    let parts = { name: e.currentTarget.childNodes[1].textContent }
+    // console.log('background first', allRows[index].style.backgroundColor)
+    // if (e.currentTarget.style.backgroundColor === 'yellow') {
+    //   console.log('background')
+    //   setTimeout(() => setFiltered([parts]), 50)
     // setFiltered([parts])
+    // }
     setUserInput(e.currentTarget.childNodes[1].textContent)
   }
 
   const handleMouseEnter = (e: any, index: number) => {
     console.log('bryan hover', [index])
-    e.currentTarget.style.background = 'red'
+    e.currentTarget.style.background = 'yellow'
     console.log('e target', e.currentTarget.childNodes)
   }
   const handleMouseLeave = (e: any, index: number) => {
@@ -152,6 +158,7 @@ function App() {
     let allrows = document.getElementsByClassName('table-rows')
 
     console.log('keydown', e.which)
+    console.log('craig', userInput)
 
     if (e.which === 40) {
       console.log('thirty')
@@ -166,12 +173,18 @@ function App() {
     } else if (e.which === 38) {
       setIndex((prevState) => prevState - 1)
     } else if (e.which === 13) {
-      let inputValue = allRows[index - 1].childNodes[1].textContent
+      let inputValue = allRows[index - 1]?.childNodes[1].textContent
       let parts = { name: inputValue }
       setFiltered([parts])
       setUserInput(inputValue)
-      console.log('enter', allRows[index - 1].childNodes[1].textContent)
+      // setIndex(index + 1)
+
       // allCells[index-1]
+    } else if (e.which === 27) {
+      let parts = { name: ' ' }
+      setFiltered([''])
+      setUserInput('')
+      setIndex(0)
     }
   }
 
