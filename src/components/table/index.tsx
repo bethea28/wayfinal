@@ -25,7 +25,7 @@ const Table = ({
   onMouseEnter: any
   onMouseLeave: any
 }) => {
-  console.log('nigga refs heres', reffed)
+  // console.log('nigga refs heres', reffed)
 
   return (
     <table ref={tableRef}>
@@ -45,6 +45,7 @@ const Table = ({
             <tr
               className='table-rows'
               // ref={reffed[index]}
+              tabIndex={index.toString()}
               onMouseEnter={onMouseEnter}
               onMouseLeave={onMouseLeave}
               onClick={(e) => handleClick(index, e)}
