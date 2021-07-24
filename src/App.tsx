@@ -2,21 +2,20 @@ import React, { useEffect, useState } from 'react'
 import './App.css'
 import Autocomplete from './components/autocomplete'
 import Table from './components/table'
-interface PartType {
+
+type PartType = {
   id: number
   name: string
   price: string
   instock: number
+  stock: boolean
 }
 
 function App() {
-  const ref = React.useRef('bryan')
   const [parts, setParts] = useState<PartType[]>([])
   const inputRef = React.useRef<HTMLInputElement>(null)
   const [userInput, setUserInput] = useState<any>()
   const [filtered, setFiltered] = useState<any[]>([''])
-  const [activeSuggestion, setActiveSuggestion] = useState<number>(0)
-  const [elRefs, setElRefs] = React.useState([])
   const [allRows, setRows] = React.useState(
     document.getElementsByClassName('table-rows')
   )
@@ -27,32 +26,20 @@ function App() {
 
   let usernameRefs = React.useRef<any>([''])
   let tableRef = React.useRef<any>('')
-  // let allrows = document.getElementsByTagName('tr')
 
   useEffect(() => {
-    console.log('useffect index', index)
-    // allCells[0].style.backgroundColor = 'yellow'
-    // allRows[index].style.backgroundColor = 'yellow'
     for (let i = 0; i < allRows.length; i++) {
       console.log('all index', allRows[i])
       console.log('main index', index)
       console.log('main I', i)
       if (Number(index) !== Number(i)) {
-        console.log('dinky')
-        // allRows[i].style.backgroundColor = 'orange'
         allRows[i].setAttribute('style', 'background-color: ;')
-
-        // allRows[i].style.backgroundColor = 'yellow'
-        // allRows[index].style.backgroundColor = 'yellow'
       } else if (Number(index) === Number(i)) {
         allRows[index] &&
           allRows[index].setAttribute('style', 'background-color:blue ;')
-        // allRows[i].style.backgroundColor = ''
       }
     }
-    // allCells[0].style.backgroundColor = 'yellow'
 
-    // allCells[0].focus()
     const fetchData = async () => {
       const resp = await fetch('http://localhost:8000/parts')
       const data = await resp.json()
@@ -62,8 +49,6 @@ function App() {
       setFiltered(myData)
     }
     fetchData()
-    // allRows[3].style.backgroundColor = allRows[3] ? 'red' : 'blue'
-    // allRows[3]?.style.backgroundColor = 'blue'
   }, [index, allRows])
 
   allCells[0] && allCells[0].focus()
@@ -71,62 +56,25 @@ function App() {
     (ref, index) => (usernameRefs.current[index] = React.createRef())
   )
   const cmp = (row: string, text: string) => {
-    // console.log(`cmp: ${row} to ${text}`)
-
     const r = row.toLocaleLowerCase().indexOf(text) > -1
-    // console.log('answer comp', r)
     return r
   }
-  const reffed = () => {
-    // console.log('set refs dude')
-  }
-
-  // const onKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
-  //   if (e.key === 'Enter') {
-  //     if (null !== inputRef.current) {
-  //       // h1Ref.current.innerText = 'Hello world!'
-  //       console.log('bryan ref', inputRef.current.value) // { current: <h1_object> }
-  //       let parts = { name: inputRef.current.value }
-  //       setFiltered([parts])
-  //     } else {
-  //     }
-  //   } else if (e.key === 'ArrowUp') {
-  //     e.preventDefault()
-  //     if (activeSuggestion === 0) {
-  //       return
-  //     }
-  //     setActiveSuggestion(activeSuggestion - 1)
-  //   } else if (e.key === 'ArrowDown') {
-  //     e.preventDefault()
-  //     // console.log(`Active ${activeSuggestion} Length: ${filtered.length}`)
-  //     if (activeSuggestion + 1 === filtered.length) {
-  //       return
-  //     }
-  //     setActiveSuggestion(activeSuggestion + 1)
-  //   }
-  // }
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    console.log('handle change', e)
     const text = e.target.value
     setUserInput(text)
     const filtered = parts.filter((row: any) => {
       return cmp(row.name, text)
     })
     setFiltered(filtered)
-    console.log('bryan data filtered', filtered)
-    // setActiveSuggestion(0)
   }
 
   const handleClick = (
     index: any,
     e: React.MouseEvent<HTMLLIElement, MouseEvent>
   ) => {
-    console.log('index handleclkick', allRows[index])
-
     setIndex(index)
     inputRef.current !== null && inputRef.current.focus()
-    let parts = { name: allRows[index].childNodes[1].textContent }
 
     setUserInput(e.currentTarget.childNodes[1].textContent)
   }
@@ -138,8 +86,7 @@ function App() {
     e.currentTarget.style.background = ''
   }
 
-  const handleKeyDown = (e: any) => {
-    console.log('keydown', e.which)
+  const handleKeyDown = (e: { which: number }) => {
     let inputValue
     if (e.which === 40) {
       setIndex((prevState) => prevState + 1)
@@ -157,7 +104,6 @@ function App() {
       let parts = { name: inputValue }
       setFiltered([parts])
       setUserInput(inputValue)
-      console.log('enter', allRows[index].childNodes[1].textContent)
     }
   }
 

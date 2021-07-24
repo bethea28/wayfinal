@@ -1,55 +1,30 @@
-// @ts-ignore
-
-import React, { useState } from 'react'
+import * as React from 'react'
 import './style.css'
-// import '../../App.css'
-import Table from '../table'
 
-const Autocomplete = ({
+type AutocompleteProps = {
+  data: Array<{
+    id: number
+    name: string
+    price: string
+    stock: boolean
+    instock: number
+  }>
+  userInput: string
+  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void
+  onKeyDown: (e: { which: number }) => void
+  inputRef: React.RefObject<HTMLInputElement>
+}
+
+const Autocomplete: React.FC<AutocompleteProps> = ({
   data,
   userInput,
   onChange,
   onKeyDown,
   inputRef,
-}: {
-  data: any
-  userInput: any
-  onChange: any
-  onKeyDown: any
-  inputRef: any
 }) => {
-  // const inputRef = React.useRef<HTMLInputElement>(null)
-  // const [userInput, setUserInput] = useState<any>()
-  const [filtered, setFiltered] = useState<any[]>(data)
-  const [activeSuggestion, setActiveSuggestion] = useState<number>(0)
-
-  // const onKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
-  //   if (e.key === 'Enter') {
-  //     if (null !== inputRef.current) {
-  //       // h1Ref.current.innerText = 'Hello world!'
-  //       console.log('bryan ref', inputRef.current.value) // { current: <h1_object> }
-  //       let parts = { name: inputRef.current.value }
-  //       setFiltered([parts])
-  //     } else {
-  //     }
-
-  //     // console.log('ref', inputRef.current.value)
-  //     // setUserInput(filtered[activeSuggestion])
-  //   } else if (e.key === 'ArrowUp') {
-  //     e.preventDefault()
-  //     if (activeSuggestion === 0) {
-  //       return
-  //     }
-  //     setActiveSuggestion(activeSuggestion - 1)
-  //   } else if (e.key === 'ArrowDown') {
-  //     e.preventDefault()
-  //     // console.log(`Active ${activeSuggestion} Length: ${filtered.length}`)
-  //     if (activeSuggestion + 1 === filtered.length) {
-  //       return
-  //     }
-  //     setActiveSuggestion(activeSuggestion + 1)
-  //   }
-  // }
+  console.log('data', data)
+  console.log('userinput', userInput)
+  console.log('inputRef', inputRef)
 
   return (
     <div className='autocomplete'>

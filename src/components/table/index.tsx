@@ -1,13 +1,23 @@
-import React, { useState } from 'react'
+import * as React from 'react'
 import './table.css'
 
-interface PartType {
-  id: number
-  name: string
-  price: string
-  instock: number
+type TableProps = {
+  reffed: any
+  tableRef: any
+  parts: Array<{
+    id: number
+    name: string
+    price: string
+    stock: boolean
+    instock: number
+  }>
+  handleClick: (index: number, e: object) => void
+  handleKeyDown: any
+  onMouseEnter: any
+  onMouseLeave: any
 }
-const Table = ({
+
+const Table: React.FC<TableProps> = ({
   reffed,
   tableRef,
   parts,
@@ -16,17 +26,7 @@ const Table = ({
   onMouseEnter,
   onMouseLeave,
   ...props
-}: {
-  reffed: any
-  tableRef: any
-  parts: any
-  handleClick: any
-  handleKeyDown: any
-  onMouseEnter: any
-  onMouseLeave: any
 }) => {
-  // console.log('nigga refs heres', reffed)
-
   return (
     <table ref={tableRef}>
       <thead>
@@ -40,27 +40,37 @@ const Table = ({
         </tr>
       </thead>
       <tbody>
-        {parts.map((part: any, index: any) => {
-          return (
-            <tr
-              className='table-rows'
-              // ref={reffed[index]}
-              tabIndex={index.toString()}
-              onMouseEnter={onMouseEnter}
-              onMouseLeave={onMouseLeave}
-              onClick={(e) => handleClick(index, e)}
-              key={index}
-              onKeyPressCapture={handleKeyDown}
-            >
-              <td>{part.id}</td>
-              <td>{part.name}</td>
-              <td>{part.price}</td>
-              <td>{part.instock}</td>
-              <td>{Number(part.instock) < 100 ? 'YES' : 'NO'}</td>
-              <td>{Number(part.instock) === 0 ? 'YES' : 'NO'}</td>
-            </tr>
-          )
-        })}
+        {parts.map(
+          (
+            part: {
+              id: number
+              name: string
+              price: string
+              stock: boolean
+              instock: number
+            },
+            index: number
+          ) => {
+            return (
+              <tr
+                className='table-rows'
+                tabIndex={index}
+                onMouseEnter={onMouseEnter}
+                onMouseLeave={onMouseLeave}
+                onClick={(e) => handleClick(index, e)}
+                key={index}
+                onKeyPressCapture={handleKeyDown}
+              >
+                <td>{part.id}</td>
+                <td>{part.name}</td>
+                <td>{part.price}</td>
+                <td>{part.instock}</td>
+                <td>{Number(part.instock) < 100 ? 'YES' : 'NO'}</td>
+                <td>{Number(part.instock) === 0 ? 'YES' : 'NO'}</td>
+              </tr>
+            )
+          }
+        )}
       </tbody>
     </table>
   )
