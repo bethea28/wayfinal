@@ -16,12 +16,10 @@ function App() {
   const inputRef = React.useRef<HTMLInputElement>(null)
   const [userInput, setUserInput] = useState<any>()
   const [filtered, setFiltered] = useState<any[]>([''])
-  const [allRows, setRows] = React.useState(
+  const [allRows] = React.useState(
     document.getElementsByClassName('table-rows')
   )
-  const [allCells, setCells] = React.useState(
-    document.getElementsByTagName('td')
-  )
+  const [allCells] = React.useState(document.getElementsByTagName('td'))
   const [index, setIndex] = React.useState(1)
 
   let usernameRefs = React.useRef<any>([''])
@@ -79,13 +77,13 @@ function App() {
     setUserInput(e.currentTarget.childNodes[1].textContent)
   }
 
-  const handleMouseEnter = (e: any, index: number) => {
+  const handleMouseEnter = (e: React.MouseEvent<HTMLElement>) => {
     e.currentTarget.style.background = 'red'
   }
-  const handleMouseLeave = (e: any, index: number) => {
+  const handleMouseLeave = (e: React.MouseEvent<HTMLElement>) => {
     e.currentTarget.style.background = ''
   }
-
+  // mouse
   const handleKeyDown = (e: { which: number }) => {
     let inputValue
     if (e.which === 40) {

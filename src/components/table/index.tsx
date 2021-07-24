@@ -12,9 +12,9 @@ type TableProps = {
     instock: number
   }>
   handleClick: (index: number, e: object) => void
-  handleKeyDown: any
-  onMouseEnter: any
-  onMouseLeave: any
+  handleKeyDown: (e: { which: number }) => void
+  onMouseEnter: (event: React.MouseEvent<HTMLElement>) => void
+  onMouseLeave: (event: React.MouseEvent<HTMLElement>) => void
 }
 
 const Table: React.FC<TableProps> = ({
